@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Upload Profile - Supabase</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  .container {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 360px;
+  }
+  h1 {
+    margin-bottom: 24px;
+    font-weight: 700;
+    text-align: center;
+    color: #333;
+  }
+  form > div {
+    margin-bottom: 16px;
+  }
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #444;
+  }
+  input[type="text"],
+  input[type="number"],
+  input[type="file"] {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1.8px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  input[type="file"]:focus {
+    border-color: #2a9df4;
+    outline: none;
+  }
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+  }
+  .checkbox-group input {
+    margin-right: 8px;
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+  button {
+    width: 100%;
+    padding: 12px 0;
+    background: #2a9df4;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: #1a7ddb;
+  }
+  .status-message {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 600;
+  }
+  .status-message.error {
+    color: #d93f3f;
+  }
+  .status-message.success {
+    color: #2e7d32;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Upload Profile</h1>
+  <form id="upload-form">
+    <div>
+      <label for="name">Name *</label>
+      <input type="text" id="name" placeholder="Enter name" required />
+    </div>
+    <div>
+      <label for="price">Price (INR) *</label>
+      <input type="number" id="price" min="0" step="0.01" placeholder="0.00" required />
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox" id="inStock" checked />
+      <label for="inStock">In Stock</label>
+    </div>
+    <div>
+      <label for="image">Image *</label>
+      <input type="file" id="image" accept="image/*" required />
+    </div>
+    <button type="submit">Upload</button>
+  </form>
+  <div id="status" class="status-message"></div>
+</div>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+  const SUPABASE_URL = 'https://nsakoqjlaofyzmqeuyqu.supabase.co'
+  const SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5zYWtvcWpsYW9meXptcWV1eXF1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0OTA2MTM1NywiZXhwIjoyMDY0NjM3MzU3fQ.Zt7MMDKiOLLsG2lRdh613oCm5YdqNntY9NdyFADzl1Q'  // replace with your key
+
+  const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY)
+
+  const form = document.getElementById('upload-form')
+  const statusEl = document.getElementById('status')
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    statusEl.textContent = ''
+    statusEl.className = 'status-message'
+
+    const name = document.getElementById('name').value.trim()
+    const price = parseFloat(document.getElementById('price').value)
+    const inStock = document.getElementById('inStock').checked
+    const fileInput = document.getElementById('image')
+    const file = fileInput.files[0]
+
+    if (!name || isNaN(price) || price < 0 || !file) {
+      statusEl.textContent = 'Please fill all required fields correctly.'
+      statusEl.classList.add('error')
+      return
+    }
+
+    try {
+      const cleanFileName = file.name.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9._-]/g, '')
+      const filePath = `uploads/${Date.now()}_${cleanFileName}`
+
+      // Upload image file
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('avatar')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false,
+        })
+
+      if (uploadError) throw uploadError
+
+      // Get public URL
+      const imageUrl = `${SUPABASE_URL}/storage/v1/object/public/avatar/${filePath}`
+
+      // Insert data into profiles table
+      const { error: insertError } = await supabase
+        .from('profiles')
+        .insert([{ 
+          name, 
+          image_url: imageUrl, 
+          price, 
+          in_stock: inStock 
+        }])
+
+      if (insertError) throw insertError
+
+      statusEl.textContent = 'Upload successful!'
+      statusEl.classList.add('success')
+      form.reset()
+
+    } catch (error) {
+      statusEl.textContent = 'Error: ' + error.message
+      statusEl.classList.add('error')
+      console.error(error)
+    }
+  })
+</script>
+
+</body>
+</html>
