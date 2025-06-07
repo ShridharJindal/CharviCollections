@@ -1,286 +1,397 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Charvi Collections - Clothing Shop</title>
-<style>
-  /* Reset */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  /* Fonts and base */
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
-
-  body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #f8f1f1, #d3e0ea);
-    color: #222;
-    line-height: 1.6;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Container */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-    flex-grow: 1;
-  }
-
-  /* Header */
-  header {
-    background: #1f2937;
-    padding: 1.2rem 0;
-    box-shadow: 0 4px 10px rgba(31, 41, 55, 0.7);
-    color: #fff;
-  }
-  header .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  header .logo {
-    font-weight: 700;
-    font-size: 1.8rem;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    background: linear-gradient(90deg, #f59e0b, #ef4444);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    cursor: pointer;
-  }
-
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 2rem;
-  }
-  nav ul li a {
-    color: #f9fafb;
-    font-weight: 600;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    position: relative;
-    transition: color 0.3s ease;
-  }
-  nav ul li a:hover,
-  nav ul li a:focus {
-    color: #f59e0b;
-  }
-  nav ul li a::after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 2px;
-    background: #f59e0b;
-    transition: width 0.3s ease;
-    position: absolute;
-    bottom: -6px;
-    left: 0;
-  }
-  nav ul li a:hover::after {
-    width: 100%;
-  }
-
-  /* Hero Section */
-  .hero {
-    background: url('https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
-    height: 450px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    text-align: center;
-    position: relative;
-    box-shadow: inset 0 0 0 2000px rgba(31, 41, 55, 0.5);
-  }
-  .hero h1 {
-    font-size: 3.5rem;
-    font-weight: 800;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-    max-width: 700px;
-    padding: 0 1rem;
-  }
-  .hero p {
-    font-size: 1.3rem;
-    margin-top: 1rem;
-    font-weight: 300;
-    text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
-  }
-
-  /* Products Grid */
-  .products {
-    padding: 3rem 0 5rem;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
-  }
-
-  .product-card {
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .product-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  }
-
-  .product-img {
-    width: 100%;
-    height: 320px;
-    object-fit: cover;
-    border-bottom: 3px solid #f59e0b;
-    transition: transform 0.4s ease;
-  }
-  .product-card:hover .product-img {
-    transform: scale(1.05);
-  }
-
-  .product-info {
-    padding: 1.5rem 1.8rem;
-    flex-grow: 1;
-  }
-
-  .product-title {
-    font-weight: 700;
-    font-size: 1.2rem;
-    margin-bottom: 0.7rem;
-    color: #1f2937;
-  }
-
-  .product-price {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: black;
-  }
-
-  /* Footer */
-  footer {
-    background: #1f2937;
-    color: #9ca3af;
-    text-align: center;
-    padding: 1.5rem 1rem;
-    font-size: 0.9rem;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  }
-
-  /* Responsive */
-  @media (max-width: 1024px) {
-    .products {
-      grid-template-columns: repeat(2, 1fr);
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Charvi Collections - Clothing Shop</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    .product-img {
-      height: 280px;
-    }
-  }
-  @media (max-width: 600px) {
-    .products {
-      grid-template-columns: 1fr;
-    }
-    nav ul {
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f8f1f1, #d3e0ea);
+      color: #222;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
       flex-direction: column;
-      gap: 1rem;
-      align-items: center;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      flex-grow: 1;
+    }
+
+    header {
+      background: #1f2937;
+      padding: 1.2rem 0;
+      box-shadow: 0 4px 10px rgba(31, 41, 55, 0.7);
+      color: #fff;
     }
     header .container {
-      flex-direction: column;
-      gap: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-  }
-</style>
+
+    header .logo {
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #f59e0b, #ef4444);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      cursor: pointer;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav ul li a {
+      color: #f9fafb;
+      font-weight: 600;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover,
+    nav ul li a:focus {
+      color: #f59e0b;
+    }
+
+    nav ul li a::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2px;
+      background: #f59e0b;
+      transition: width 0.3s ease;
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    .hero {
+      background: url('https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+      height: 450px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-align: center;
+      position: relative;
+      box-shadow: inset 0 0 0 2000px rgba(31, 41, 55, 0.5);
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+      max-width: 700px;
+      padding: 0 1rem;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      margin-top: 1rem;
+      font-weight: 300;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
+    }
+
+    .products {
+      padding: 3rem 0 5rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      border-bottom: 3px solid #f59e0b;
+      transition: transform 0.4s ease;
+    }
+
+    .product-card:hover .product-img {
+      transform: scale(1.05);
+    }
+
+    .product-info {
+      padding: 1.5rem 1.8rem;
+      flex-grow: 1;
+    }
+
+    .product-title {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 0.7rem;
+      color: #1f2937;
+    }
+
+    .product-price {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: black;
+    }
+
+    footer {
+      background: #1f2937;
+      color: #9ca3af;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.9rem;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: auto;
+      background-color: rgba(31, 41, 55, 0.85);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      padding: 10px;
+      overflow: auto;
+    }
+
+    .modal-content img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: #ef4444;
+      color: white;
+      border: none;
+      font-size: 1.5rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .modal-close:hover {
+      background: #b91c1c;
+    }
+
+    @media (max-width: 1024px) {
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .product-img {
+        height: 280px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .products {
+        grid-template-columns: 1fr;
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+      }
+      header .container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-<header>
-  <div class="container">
-    <div class="logo">Charvi Collections</div>
-    <nav>
-      <ul>
-     <!--   <li><a href="#">Men</a></li>
-       <li><a href="#">Women</a></li>
-        <li><a href="#">Kids</a></li>
-        <li><a href="#">Sale</a></li>
-        <li><a href="#">New Arrivals</a></li> -->
-      </ul>
-    </nav>
-  </div>
-</header>
+  <header>
+    <div class="container">
+      <div class="logo">Charvi Collections</div>
+      <nav>
+        <ul></ul>
+      </nav>
+    </div>
+  </header>
 
-<section class="hero">
-  <div>
-    <h1>Discover Your Style with Our Latest Collection</h1>
-    <p>Trendy, comfortable, and affordable clothing for every occasion.</p>
-  </div>
-</section>
-
-<main class="container">
-  <section class="products" id="products">
-    <!-- Products will load here -->
+  <section class="hero">
+    <div>
+      <h1>Discover Your Style with Our Latest Collection</h1>
+      <p>Trendy, comfortable, and affordable clothing for every occasion.</p>
+    </div>
   </section>
-</main>
 
-<footer>
-  <p>&copy; 2025 Charvi Collections. All rights reserved.</p>
-</footer>
+  <main class="container">
+    <section class="products" id="products"></section>
+  </main>
 
-<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <img src="" alt="Product Large View" id="modalImage" />
+    </div>
+  </div>
 
-  const SUPABASE_URL = 'https://nsakoqjlaofyzmqeuyqu.supabase.co'
-  const SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5zYWtvcWpsYW9meXptcWV1eXF1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0OTA2MTM1NywiZXhwIjoyMDY0NjM3MzU3fQ.Zt7MMDKiOLLsG2lRdh613oCm5YdqNntY9NdyFADzl1Q' // Replace with your service role key
+  <footer>
+    <p>&copy; 2025 Charvi Collections. All rights reserved.</p>
+  </footer>
 
-  const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY)
+  <script>
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', function(e) {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.key === 'u') ||
+        (e.ctrlKey && e.shiftKey && e.key === 'I')
+      ) {
+        e.preventDefault();
+      }
+    });
+  </script>
 
-  const productsContainer = document.getElementById('products')
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+    const SUPABASE_URL = 'https://nsakoqjlaofyzmqeuyqu.supabase.co'
+     const SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5zYWtvcWpsYW9meXptcWV1eXF1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0OTA2MTM1NywiZXhwIjoyMDY0NjM3MzU3fQ.Zt7MMDKiOLLsG2lRdh613oCm5YdqNntY9NdyFADzl1Q' // Replace with your service role key
 
-  async function loadProducts() {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('id, name, image_url, price, in_stock')
 
-    if (error) {
-      productsContainer.innerHTML = `<p style="color: red; text-align:center;">Failed to load products: ${error.message}</p>`
-      return
+    const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY)
+    const productsContainer = document.getElementById('products')
+
+    async function loadProducts() {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id, name, image_url, price, in_stock')
+
+      if (error) {
+        productsContainer.innerHTML = `<p style="color: red; text-align:center;">Failed to load products: ${error.message}</p>`
+        return
+      }
+
+      if (!data || data.length === 0) {
+        productsContainer.innerHTML = `<p style="text-align:center;">No products available at the moment.</p>`
+        return
+      }
+
+      productsContainer.innerHTML = data.map(product => `
+        <article class="product-card" tabindex="0" data-image="${product.image_url}">
+          <img class="product-img" src="${product.image_url}" alt="${product.name}" loading="lazy"
+            onerror="this.src='https://via.placeholder.com/600x320?text=No+Image'" />
+          <div class="product-info">
+            <h2 class="product-title">${product.name}</h2>
+            <p class="product-price">₹ ${parseFloat(product.price).toFixed(2)}</p>
+            <p style="font-weight:600; color:${product.in_stock ? '#16a34a' : '#ef4444'};">
+              ${product.in_stock ? 'In Stock' : 'Out of Stock'}
+            </p>
+          </div>
+        </article>
+      `).join('')
+
+      addCardClickEvents()
     }
 
-    if (!data || data.length === 0) {
-      productsContainer.innerHTML = `<p style="text-align:center;">No products available at the moment.</p>`
-      return
+    function addCardClickEvents() {
+      const cards = document.querySelectorAll('.product-card')
+      const modal = document.getElementById('modal')
+      const modalImage = document.getElementById('modalImage')
+      const modalClose = document.getElementById('modalClose')
+
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          const imageUrl = card.getAttribute('data-image')
+          modalImage.src = imageUrl
+          modal.classList.add('active')
+        })
+        card.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            card.click()
+          }
+        })
+      })
+
+      modalClose.addEventListener('click', () => {
+        modal.classList.remove('active')
+        modalImage.src = ''
+      })
+
+      modal.addEventListener('click', e => {
+        if (e.target === modal) {
+          modal.classList.remove('active')
+          modalImage.src = ''
+        }
+      })
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+          modal.classList.remove('active')
+          modalImage.src = ''
+        }
+      })
     }
 
-    productsContainer.innerHTML = data.map(product => `
-      <article class="product-card" tabindex="0">
-        <img
-          class="product-img"
-          src="${product.image_url}"
-          alt="${product.name}"
-          loading="lazy"
-          onerror="this.src='https://via.placeholder.com/600x320?text=No+Image'"
-        />
-        <div class="product-info">
-          <h2 class="product-title">${product.name}</h2>
-          <p class="product-price">₹ ${parseFloat(product.price).toFixed(2)}</p>
-          <p style="font-weight:600; color:${product.in_stock ? '#16a34a' : '#ef4444'};">
-            ${product.in_stock ? 'In Stock' : 'Out of Stock'}
-          </p>
-        </div>
-      </article>
-    `).join('')
-  }
-
-  loadProducts()
-</script>
+    loadProducts()
+  </script>
 </body>
 </html>
