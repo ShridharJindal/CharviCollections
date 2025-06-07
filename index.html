@@ -313,8 +313,7 @@
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
     const SUPABASE_URL = 'https://nsakoqjlaofyzmqeuyqu.supabase.co'
-     const SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5zYWtvcWpsYW9meXptcWV1eXF1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0OTA2MTM1NywiZXhwIjoyMDY0NjM3MzU3fQ.Zt7MMDKiOLLsG2lRdh613oCm5YdqNntY9NdyFADzl1Q' // Replace with your service role key
-
+     const SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5zYWtvcWpsYW9meXptcWV1eXF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwNjEzNTcsImV4cCI6MjA2NDYzNzM1N30.t1K4uxS7ufbL24jQveG2eZk-6I_rYbDMhuVJMsbtUMY'
 
     const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY)
     const productsContainer = document.getElementById('products')
